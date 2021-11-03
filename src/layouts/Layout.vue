@@ -6,12 +6,21 @@
         class= "absolute-center text-strikethrough">
           DONE
         </q-toolbar-title>
+      
       <q-btn 
+      v-if='!this.loggedIn'
       flat
       to='/auth'
       class="absolute-right"
       icon-right="account_circle" 
       label="Log In" />
+      <q-btn 
+      v-else
+      flat
+      class="absolute-right"
+      icon-right="account_circle" 
+      label="Logout" />
+
       </q-toolbar>
     </q-header>
           
@@ -61,8 +70,12 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 
 export default {
+  computed: {
+    ...mapState('auth' , ['loggedIn'])
+  },
   name: 'Layout',
   data () {
     return {

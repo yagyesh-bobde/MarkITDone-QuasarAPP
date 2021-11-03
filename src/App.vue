@@ -8,10 +8,12 @@
 
 export default {
   methods: {
-    ...mapActions('settings' , ['getSettings'])
+    ...mapActions('settings' , ['getSettings']),
+    ...mapActions('auth' , ['handleAuthChange'])
   },
   mounted() {
     this.getSettings()
+    this.handleAuthChange()
   }
 }
 </script>
