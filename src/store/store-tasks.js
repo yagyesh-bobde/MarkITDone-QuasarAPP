@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { uid } from 'quasar'
 import { firebaseAuth, firebaseDb } from 'src/boot/firebase'
-import { ref } from 'firebase/database'
+import { ref , onValue } from 'firebase/database'
 
 const state ={
 
@@ -73,6 +73,11 @@ const actions = {
         console.log('fbread')
         let userId = firebaseAuth.currentUser.uid
         let userTasks = ref(firebaseDb,'tasks/' + userId)
+        onValue(userTasks, (snapshot) => {
+            console.log(snapshot);
+            // const data = snapshot.val();
+            // updateStarCount(postElement, data);
+          });
     }
 }
 
