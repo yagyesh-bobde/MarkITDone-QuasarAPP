@@ -1,5 +1,9 @@
 import { firebaseAuth } from "src/boot/firebase";
-import { onAuthStateChanged,createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import {  onAuthStateChanged,createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import {signOut} from 'firebase/auth';
+import { LocalStorage,Loading } from "quasar";
+import { showError } from "src/functions/function-show-error";
+import 'src/store/store-tasks'
 
 const state ={
     loggedIn: false
@@ -12,40 +16,45 @@ const mutations = {
 }
 
 const actions = {
+    
     registerUser({} , payload) {
+        Loading.show()
         createUserWithEmailAndPassword(firebaseAuth, payload.email, payload.password)
   .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-
   })
   .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ..
+    showError(error.message)
   });
     },
+    
     loginUser({} ,payload) {
+        Loading.show()
         signInWithEmailAndPassword(firebaseAuth, payload.email, payload.password)
   .then((userCredential) => {
-    // Signed in 
-
-    // ...
   })
   .catch((error) => {
-    console.log(error.message)
+    showError(error.message)
   });
     },
-    handleAuthChange({commit}){
+    
+    logOutUser({commit}) {
+        signOut(firebaseAuth)
+    },
+    
+    handleAuthChange({ commit , dispatch }){
         onAuthStateChanged(firebaseAuth, (user) => {
+            Loading.hide()
             if (user) {
               // User is signed in, see docs for a list of available properties
               // https://firebase.google.com/docs/reference/js/firebase.User
-              console.log(user.uid)
               commit('setloggedIn', true)
-              // ...
+              LocalStorage.set('loggedIn',true)
+              this.$router.push('/').catch(error => {})
+              dispatch('tasks/fbreadData', null , { root: true})
             } else {
               commit('setloggedIn' , false)
+              LocalStorage.set('loggedIn',false)
+              this.$router.replace('/auth').catch(error => {})
             }
           });
     }

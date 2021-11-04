@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
+import { getDatabase } from 'firebase/database'
 
 
 const firebaseConfig = {
@@ -11,7 +11,7 @@ const firebaseConfig = {
   storageBucket: "secure-portal-329814.appspot.com",
   messagingSenderId: "968551836553",
   appId: "1:968551836553:web:e573e72638ccb72a5a4f58",
-  measurementId: "G-9R6R0L11RE"
+  measurementId: "G-9R6R0L11R E"
 };
 
 // Initialize Firebase
@@ -19,4 +19,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 const firebaseAuth = getAuth(firebaseApp);
 
-export  { firebaseAuth }
+const firebaseDb = getDatabase(firebaseApp)
+
+
+export  { firebaseAuth , firebaseDb}

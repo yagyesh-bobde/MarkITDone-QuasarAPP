@@ -1,99 +1,30 @@
 import Vue from 'vue'
 import { uid } from 'quasar'
+import { firebaseAuth, firebaseDb } from 'src/boot/firebase'
+import { ref } from 'firebase/database'
 
 const state ={
 
     tasks: {
-        'ID1': {
-        name:'Go Fetch' ,
-        completed: false,
-            dueDate: '2020/10/15',
-            dueTime: '16:00'
-        },
-        'ID2': {
-        name: 'Go buy bananas',
-        completed: false, 
-            dueDate: '2020/11/11',
-            dueTime: '14:30'
-        },
-        'ID3': {
-            name:'Go to the grocerry store' ,
-            completed: false,
-            dueDate: '2020/10/11',
-            dueTime: '15:20'
-        }
-        // 'ID4': {
-        //     name:'Go Fetch' ,
-        //     completed: false,
+        // 'ID1': {
+        // name:'Go Fetch' ,
+        // completed: false,
         //     dueDate: '2020/10/15',
         //     dueTime: '16:00'
         // },
-        // 'ID5': {
-        //     name: 'Go buy bananas',
-        //     completed: false, 
+        // 'ID2': {
+        // name: 'Go buy bananas',
+        // completed: false, 
         //     dueDate: '2020/11/11',
         //     dueTime: '14:30'
         // },
-        // 'ID6': {
-        //     name:'Go to the grocerry store' ,
-        //     completed: false,
-        //     dueDate: '2020/10/11',
-        //     dueTime: '15:20'
-        // },
-        // 'ID7': {
-        //     name:'Go Fetch' ,
-        //     completed: false,
-        //     dueDate: '2020/10/15',
-        //     dueTime: '16:00'
-        // },
-        // 'ID8': {
-        //     name: 'Go buy bananas',
-        //     completed: false, 
-        //     dueDate: '2020/11/11',
-        //     dueTime: '14:30'
-        // },
-        // 'ID9': {
-        //     name:'Go to the grocerry store' ,
-        //     completed: false,
-        //     dueDate: '2020/10/11',
-        //     dueTime: '15:20'
-        // },
-        // 'ID10': {
-        //     name:'Go Fetch' ,
-        //     completed: false,
-        //     dueDate: '2020/10/15',
-        //     dueTime: '16:00'
-        // },
-        // 'ID11': {
-        //     name: 'Go buy bananas',
-        //     completed: false, 
-        //     dueDate: '2020/11/11',
-        //     dueTime: '14:30'
-        // },
-        // 'ID12': {
-        //     name:'Go to the grocerry store' ,
-        //     completed: false,
-        //     dueDate: '2020/10/11',
-        //     dueTime: '15:20'
-        // },
-        // 'ID13': {
-        //     name:'Go Fetch' ,
-        //     completed: false,
-        //     dueDate: '2020/10/15',
-        //     dueTime: '16:00'
-        // },
-        // 'ID14': {
-        //     name: 'Go buy bananas',
-        //     completed: false, 
-        //     dueDate: '2020/11/11',
-        //     dueTime: '14:30'
-        // },
-        // 'ID15': {
+        // 'ID3': {
         //     name:'Go to the grocerry store' ,
         //     completed: false,
         //     dueDate: '2020/10/11',
         //     dueTime: '15:20'
         // }
+
     },
     search: "",
     sort: 'name'
@@ -137,6 +68,11 @@ const actions = {
     },
     setSort({commit} , value) {
         commit('setSort' , value)
+    },    
+    fbreadData({commit}) {
+        console.log('fbread')
+        let userId = firebaseAuth.currentUser.uid
+        let userTasks = ref(firebaseDb,'tasks/' + userId)
     }
 }
 
@@ -201,6 +137,7 @@ const getters = {
         })
         return tasks
     },
+
 }
 
 export default{

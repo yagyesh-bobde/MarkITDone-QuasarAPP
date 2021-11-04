@@ -14,8 +14,10 @@
       class="absolute-right"
       icon-right="account_circle" 
       label="Log In" />
+      
       <q-btn 
       v-else
+      @click='logOutUser'
       flat
       class="absolute-right"
       icon-right="account_circle" 
@@ -70,7 +72,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState , mapActions} from 'vuex'
 
 export default {
   computed: {
@@ -95,6 +97,9 @@ export default {
                   },
               ]   
     }
+  },
+  methods: {
+    ...mapActions('auth' , ['logOutUser'])
   }
 }
 </script>
